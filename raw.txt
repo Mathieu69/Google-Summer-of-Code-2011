@@ -1,0 +1,64 @@
+Who am I ?
+My name is Mathieu Duponchelle, I am a French student in Computer Engineering and I have had a passion for open source softwares for more than one year now. I study at EPITECH (Paris Computer Engineering Private School). I will enter my third year next October.
+What have I done in Computer Science ?
+For pleasure
+I learnt Python as a first programming language, following the very good tutorial by Gerard Swinnen, and developped quite a few programs using the GTK bindings for Python, to learn how to develop graphic applications.
+I also used the G Streamer bindings to develop a basic video player, and then got into some real open source projects.
+For the libre software community
+I worked on a few projects in Python for Pitivi, like a start up wizard, an iconview for the effect list, and a multi-platform (blip.tv, archive.org) streamer and downloader directly integrated as a new importing option in the menu of pitivi. This one is finished but still has to be reviewed and merged.  I also worked on slow motion in Pitivi, but this feature was problematic (audio tracks would not have their speed modified and various issues), and has since been taken care of by a salaryman of Collabora, the stucture in charge of Pitivi and other projects.
+I now got into the development of Gstreamer-Editing-Services (hereby referred to as GES), by writing a formatter for .xptv projects, which I plan to have finished by the next week or so.
+What do I want to do after my studies ?
+As I am very interested by the free software economical model, I could be interested in creating a venture specialized in free software. I know this is going to be a very dynamic market in the next coming years , but the first reason for which I want to work in this domain is because I do like it and am really amazed by this community !
+My project
+Short description
+Implement the GES library in Pitivi, starting with three fundamental objects, the GESTimeline, the GESTimelinePipeline and the GESPitiviFormatter, to achieve a first functionnal version.
+Benefits for Pitivi users
+The Pitivi video editor is programmed in Python and directly uses the Gstreamer bindings. Such a project would improve the global performance of Pitivi, as the GES library is coded in C, and also permit the integration of some new concepts introduced by GES :
+Different types of transitions, as the only type available in Pitivi for the moment is a basic crossfade.
+The notion of text overlay, to enable titles in Pitivi.
+These two features are actually proposed as separate GSoC ideas on the Pitivi wiki, and another interest of my project would be to make it easy to implement afterwards, as one would only have to code a proper interface to make it available.
+Benefits for the community
+The prerequisite of my project would be to write Python bindings for GES (after some talk on the Pitivi channel it seems that this would be preferable to Gobject introspection), which could be used in separate projects.
+Description of the implementation
+The first step of my project would be to write the bindings for the GESTimeline, the GESTimelinePipeline and the GESPitiviFormatter, following the example of gst-python. These three elements will allow me to :
+  Instantiate a new, empty timeline
+  Pass it to the formatter along with the uri of an xptv file
+  Add it to the pipeline that I will connect to the Pitivi Viewer. 
+This will be the first, partly-functionnal version I intend to deliver.
+The second step would be to write the bindings for the TimelineFileSource, and implement it in Pitivi, i.e. connect it to the "import file" option. This will make my next version able to create sources using GES.
+The third step would be to write bindings for GESTimelineLayer, and connect the GESTimelineFileSource and the GESTimeline to the graphic representation of the timeline in Pitivi, to make the actual editing part functionnal. This will be the third, nearly fully-functionnal version I will deliver.
+To make it fully functionnal, i.e. come to the same level as the present version, the missing things will be the transitions, and the track effects. To achieve that, I will write the bindings for GESTimelineTransition and GESTrackEffect, and implement them in Pitivi, instead of the existing transitions and effects of course.
+I will not take care of the implementing of the new transitions myself, as it would imply to think out a new way to represent them. This will however be easily managable as the bindings for the ges_timeline_transition_new () method will have been written, and all it will take will be to change the 'vtype' argument to have the new types of transitions available.
+N.B. : It seems that timeline effects (which would not apply on a timeline object but on a zone of a timeline) are also gonna be implemented in GES, but this is not the case in Pitivi and therefore out of the scope of my project.
+The fifth step would be to create the bindings for GESTimelineTextOverlay and GESTimelineTextSource, but to achieve the implementation will also require to create the graphical interface, and this step really is not in the primitive scope of the project.
+The method I will follow to write the bindings will be the test-driven development, to create a good test-case for each class, and I intend to make the whole API of each class available, even if some methods are not needed at the moment in Pitivi. This will help me follow an iterative model.
+Other components I may hack on
+If enough time remains, I could:
+Create a basic user interface for titling sources or creating text sources.
+Modify the existing interface to make transitions selectable and therefore change their type. For now, transitions only underline the overlapping of two sources, and are not accessible to the user.
+If necessary, I could fix one or two bugs in GES as I happen to know some of its components pretty well. I obviously hope that it won't be needed !
+How do I plan to achieve completion of my project ?
+Schedule (may vary) :
+From now on to 23rd of May (~ 60 days) : Dive again into Pitivi, particularly the test suites. Start to write test bindings inspiring myself from gst-python. Talk with bilboed and thiblahute. Initial planning.
+23rd of May to 7th of June (14 days) : Make the first bindings and testcases.
+8th of June to 17th of June (10 days) : Implement Timeline, Pipeline and Formatter, and connect to the viewer. First version.
+18th of June to 25th of June (7 days) : Make the bindings for TimelineFileSource, implement and connect to the sourcelist.
+26th of June to 15th of July (20 days) : Make the bindings for TimelineLayer, implement, connect the timeline to the editing interface.
+16th of July to 1st of August (14 days) : Make the bindings for TimelineTransition and TrackEffect, connect to the editing interface and the effectlist.
+1st of August until 15th of August (14 days) : Make the bindings for TimelineTextSource and TimelineTextOverlay, make the documentation and do a final cleanup of the code.
+15th of August until firm "pencils down" (7 days) : Depending on the completion, try to make up a basic interface for text sources or text overlay.
+Why do I want to work on Pitivi ?
+I have been using exclusively Linux desktop for two years now, and since I started programming I have always been interested in video playing and editing. All the serious projects I started on my own have been for Pitivi or GES, and I now begin to know its code quite well (back end and interface). I love this community, because of the way its members always helped me out when I had a difficult thing to overcome. Bilboed (Edward Hervey) is usually very fast to answer, even at undue hours, nekohayo (Jean-François Fortin Tam) always has a good opinion on the way the interface should be designed, and thiblahute (Thibault Saunier) is always willing to take a little time to introduce me to new concepts and give good advice on the actual coding. Other members also help out when they're not too busy. I couldn't imagine making a GSoC with another, random community, because I know I would be far less efficient without that environment. I also love Python, git and glade, which are some of the tools that they use.
+What could be done after to enhance my work ?
+Create a factory with a get_formatter_from_uri() method, to load either classical xptv files or keyfiles, which is the format GES uses for now to save and load projects.
+Make the interface for the text sources and the text overlay.
+Modify the existing interface for the transitions.
+Add the handling of GESTimelineEffects.
+Why me ?
+I can spend so much time working since I always want to achieve what I do.
+I love opensource.
+I learn quite fast, and I love learning in computing.
+I can learn alone pretty well.
+I already know a bit about the technologies used in Pitivi.
+I want to have a good video editor for my favorite desktop: Gnome.
+
